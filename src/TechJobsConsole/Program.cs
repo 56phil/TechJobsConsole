@@ -125,6 +125,9 @@ namespace TechJobsConsole
             return choiceKeys[choiceIdx];
         }
 
+        /*
+         * Displays a list of dictionaries.
+         */
         private static void PrintJobs(ImmutableList<Dictionary<string, string>> someJobs)
         {
             StringBuilder sb = new StringBuilder();
@@ -136,6 +139,7 @@ namespace TechJobsConsole
                     sb.AppendFormat("{0}: {1}\n", key, job[key]);
                 }
             }
+
             sb.AppendLine("*****");
             Console.WriteLine(sb.ToString());
         }

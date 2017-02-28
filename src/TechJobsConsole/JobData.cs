@@ -66,6 +66,9 @@ namespace TechJobsConsole
 
         }
 
+        /*
+         * Returns a list of dictionaries that match a value contained in a given column.
+         */
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
         {
             // load data, if not already loaded
@@ -171,6 +174,9 @@ namespace TechJobsConsole
             return rowValues.ToArray();
         }
 
+        /*
+        * Returns a sorted list of jobs. 
+        */
         private static List<Dictionary<string, string>> sortJobs(List<Dictionary<string, string>> jobs, string column)
         {
             var orderedJobs = jobs.OrderBy(x => x[column]);
