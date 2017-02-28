@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -8,10 +9,10 @@ namespace TechJobsConsole
 {
     class JobData
     {
-        static List<Dictionary<string, string>> AllJobs = new List<Dictionary<string, string>>();
+        static ImmutableList<Dictionary<string, string>> AllJobs;
         static bool IsDataLoaded = false;
 
-        public static List<Dictionary<string, string>> FindAll()
+        public static ImmutableList<Dictionary<string, string>> FindAll()
         {
             LoadData();
             return AllJobs;
@@ -34,7 +35,6 @@ namespace TechJobsConsole
                     if (job[key].IndexOf(searchArgument, StringComparison.OrdinalIgnoreCase) >= 0)
                     {
                         foundJobsSet.Add(job);
-                        break;
                     }
                 }
             }
@@ -115,6 +115,8 @@ namespace TechJobsConsole
             string[] headers = rows[0];
             rows.Remove(headers);
 
+            List<Dictionary<string, string>> jobs = new List<Dictionary<string, string>>();
+
             // Parse each row array into a more friendly Dictionary
             foreach (string[] row in rows)
             {
@@ -124,8 +126,10 @@ namespace TechJobsConsole
                 {
                     rowDict.Add(headers[i], row[i]);
                 }
-                AllJobs.Add(rowDict);
+                jobs.Add(rowDict);
             }
+
+            AllJobs = jobs.ToImmutableList();
 
             IsDataLoaded = true;
         }

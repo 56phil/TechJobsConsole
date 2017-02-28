@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace TechJobsConsole
 {
@@ -69,7 +70,7 @@ namespace TechJobsConsole
                     {
                         searchResults = JobData.FindByColumnAndValue(columnChoice, searchTerm);
                     }
-                    PrintJobs(searchResults);
+                    PrintJobs(searchResults.ToImmutableList());
                 }
             }
         }
@@ -124,7 +125,7 @@ namespace TechJobsConsole
             return choiceKeys[choiceIdx];
         }
 
-        private static void PrintJobs(List<Dictionary<string, string>> someJobs)
+        private static void PrintJobs(ImmutableList<Dictionary<string, string>> someJobs)
         {
             StringBuilder sb = new StringBuilder();
             foreach(Dictionary<string, string> job in someJobs)
