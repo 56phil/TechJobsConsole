@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Text;
 
 namespace TechJobsConsole
@@ -14,6 +14,36 @@ namespace TechJobsConsole
         {
             LoadData();
             return AllJobs;
+        }
+
+        /*
+         * Scan all columns in all jobs for a match with the search argument. When a match occurs add that job to the set.
+         * Once all jobs have been found, make a list of jobs from the set and return the list.
+         */
+        public static List<Dictionary<string, string>> FindByValue(string searchArgument)
+        {
+            LoadData();
+            HashSet<Dictionary<string, string>> foundJobsSet = new HashSet<Dictionary<string, string>>();
+            List<Dictionary<string, string>> foundJobs = new List<Dictionary<string, string>>();
+
+            foreach (Dictionary<string, string> job in AllJobs)
+            {
+                foreach (string key in job.Keys)
+                {
+                    if (job[key].IndexOf(searchArgument, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        foundJobsSet.Add(job);
+                        break;
+                    }
+                }
+            }
+
+            foreach (Dictionary<string, string> job in foundJobsSet)
+            {
+                foundJobs.Add(job);
+            }
+
+            return foundJobs;
         }
 
         /*
@@ -140,3 +170,4 @@ namespace TechJobsConsole
         }
     }
 }
+
