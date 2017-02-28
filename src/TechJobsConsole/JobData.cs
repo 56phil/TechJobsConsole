@@ -60,7 +60,18 @@ namespace TechJobsConsole
             {
                 string aValue = job[column];
 
-                if (!values.Contains(aValue))
+                bool isFound = false;
+
+                foreach(string value in values)
+                {
+                    if(value.IndexOf(aValue, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        isFound = true;
+                        break;
+                    }
+                }
+
+                if (!isFound)
                 {
                     values.Add(aValue);
                 }
@@ -79,7 +90,7 @@ namespace TechJobsConsole
             {
                 string aValue = row[column];
 
-                if (aValue.Contains(value))
+                if(aValue.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     jobs.Add(row);
                 }

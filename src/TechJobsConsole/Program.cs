@@ -28,7 +28,6 @@ namespace TechJobsConsole
             // Allow user to search/list until they manually quit with ctrl+c
             while (true)
             {
-
                 string actionChoice = GetUserSelection("View Jobs", actionChoices);
 
                 if (actionChoice.Equals("list"))
@@ -101,7 +100,15 @@ namespace TechJobsConsole
                 }
 
                 string input = Console.ReadLine();
-                choiceIdx = int.Parse(input);
+                try
+                {
+                    choiceIdx = int.Parse(input);
+                }
+
+                catch (FormatException)
+                {
+                    choiceIdx = -1;
+                }
 
                 if (choiceIdx < 0 || choiceIdx >= choiceKeys.Length)
                 {
