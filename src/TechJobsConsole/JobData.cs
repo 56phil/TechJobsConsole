@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace TechJobsConsole
@@ -43,7 +44,7 @@ namespace TechJobsConsole
                 foundJobs.Add(job);
             }
 
-            return foundJobs;
+            return sortJobs(foundJobs, "employer");
         }
 
         /*
@@ -54,29 +55,15 @@ namespace TechJobsConsole
         {
             LoadData();
 
-            List<string> values = new List<string>();
+            //List<string> values = new List<string>();
+            HashSet<string> values = new HashSet<string>();
 
             foreach (Dictionary<string, string> job in AllJobs)
             {
-                string aValue = job[column];
-
-                bool isFound = false;
-
-                foreach(string value in values)
-                {
-                    if(value.IndexOf(aValue, StringComparison.OrdinalIgnoreCase) >= 0)
-                    {
-                        isFound = true;
-                        break;
-                    }
-                }
-
-                if (!isFound)
-                {
-                    values.Add(aValue);
-                }
+                values.Add(job[column]);
             }
-            return values;
+            return values.OrderBy(q => q).ToList();
+
         }
 
         public static List<Dictionary<string, string>> FindByColumnAndValue(string column, string value)
@@ -96,7 +83,7 @@ namespace TechJobsConsole
                 }
             }
 
-            return jobs;
+            return sortJobs(jobs, column);
         }
 
         /*
@@ -178,6 +165,12 @@ namespace TechJobsConsole
             valueBuilder.Clear();
 
             return rowValues.ToArray();
+        }
+
+        private static List<Dictionary<string, string>> sortJobs(List<Dictionary<string, string>> jobs, string column)
+        {
+            var orderedJobs = jobs.OrderBy(x => x[column]);
+            return orderedJobs.ToList();
         }
     }
 }
